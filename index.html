@@ -1,0 +1,21 @@
+<h1>Welcome to bradrn’s website</h1>
+
+$for(posts)$
+    <section class="header">
+        <h2>$title$</h2>
+        <div class="posted-on">
+            Posted on $date$
+            $if(author)$
+                by $author$
+            $endif$
+            $if(modified)$
+            <br>
+            Last modified: $modified$
+            $endif$
+        </div>
+    </section>
+    <section class="teaser">
+        $teaser$
+    </section>
+    <p><a href="$url$">Continue reading…</a></p>
+$endfor$

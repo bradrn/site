@@ -1,0 +1,22 @@
+- project: Conkey
+  description: A keyboard layout designed for linguists and programmers.
+  image: /images/conkey-screenshot.png
+  site: https://github.com/bradrn/Conkey
+  forum: https://www.verduria.org/viewtopic.php?f=3&t=389
+  status: mature
+- project: Brassica
+  description: A sound change applier supporting numerous advanced features.
+  image: /images/brassica-screenshot.png
+  site: http://bradrn.com/brassica/index.html
+  code: https://github.com/bradrn/brassica
+  forum: http://verduria.org/viewtopic.php?f=3&t=913
+  status: mature
+- project: Cabasa
+  description: A Haskell library providing a graphical interface for any 2D cellular automaton.
+  image: /images/cabasa-screenshot.png
+  site: https://github.com/bradrn/cabasa
+  status: beta
+- project: Nexo
+  description: A new type of spreadsheet.
+  site: https://github.com/bradrn/nexo
+  status: experimental

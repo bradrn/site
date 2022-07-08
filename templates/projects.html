@@ -1,0 +1,24 @@
+<h1>Projects</h1>
+$for(projects)$
+    <div class="project">
+        <h2>$project$</h2>
+        <p>$description$</p>
+        $if(image)$
+            <img class="project-image" src="$image$">
+        $endif$
+        <dl>
+            <dt>Site</dt>
+            <dd><a href="$site$">$site$</a></dd>
+            $if(code)$
+                <dt>Code</dt>
+                <dd><a href="$code$">$code$</a></dd>
+            $endif$
+            $if(forum)$
+                <dt>Discussion thread</dt>
+                <dd><a href="$forum$">$forum$</a></dd>
+            $endif$
+            <dt>Status</dt>
+            <dd class="project-status">$status$</dd>
+        </dl>
+    </div>
+$endfor$

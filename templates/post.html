@@ -1,0 +1,18 @@
+<article>
+    <section class="header">
+        <h1>$title$</h1>
+        <div class="posted-on">
+            Posted on $date$
+            $if(author)$
+                by $author$
+            $endif$
+            $if(modified)$
+            <br>
+            Last modified: $modified$
+            $endif$
+        </div>
+    </section>
+    <section>
+        $body$
+    </section>
+</article>
