@@ -9,7 +9,10 @@ import Control.Monad.Trans.State.Strict
 import Data.Aeson.Key (fromString)
 import qualified Data.Aeson.KeyMap as M
 import Data.ByteString.Lazy (toStrict)
+import Data.Foldable (asum)
 import Data.Text (unpack, pack)
+import Data.Time.Clock (UTCTime)
+import Data.Time.Format (TimeLocale, defaultTimeLocale, formatTime, parseTimeM)
 import Data.Yaml
 import Text.Pandoc.Definition
 import Text.Pandoc.Shared (blocksToInlines)
@@ -101,7 +104,10 @@ main = hakyll $ do
     match "templates/*" $ compile templateBodyCompiler
 
 postCtx :: Context String
-postCtx = dateField "date" "%B %e, %Y" <> defaultContext
+postCtx =
+    dateField "date" "%B %e, %Y" <>
+    modifiedField "modified" "%B %e, %Y" <>
+    defaultContext
 
 pandocTransform :: Pandoc -> Pandoc
 pandocTransform = flip evalState 1 . walkM \case
@@ -112,3 +118,32 @@ pandocTransform = flip evalState 1 . walkM \case
         put $ i+1
         pure result
     x -> pure x
+
+-- modified from https://david.sferruzza.fr/blog/2014-06-18-new-blog-with-hakyll/
+modifiedField :: String -> String -> Context a
+modifiedField key format = field key $ \i -> do
+    time <- getModifiedTime locale $ itemIdentifier i
+    return $ formatTime locale format time
+  where
+    locale = defaultTimeLocale
+
+getModifiedTime :: (MonadFail m, MonadMetadata m) => TimeLocale -> Identifier -> m UTCTime
+getModifiedTime locale id' = do
+    metadata <- getMetadata id'
+    let tryField k fmt = lookupString k metadata >>= parseTime' fmt
+    maybe empty' return $ asum [tryField "modified" fmt | fmt <- formats]
+  where
+    empty' = fail $ "getModifiedTime: could not parse time for " ++ show id'
+    parseTime' = parseTimeM True locale
+    formats    =
+        [ "%a, %d %b %Y %H:%M:%S %Z"
+        , "%a, %d %b %Y %H:%M:%S"
+        , "%Y-%m-%dT%H:%M:%S%Z"
+        , "%Y-%m-%dT%H:%M:%S"
+        , "%Y-%m-%d %H:%M:%S%Z"
+        , "%Y-%m-%d %H:%M:%S"
+        , "%Y-%m-%d"
+        , "%B %e, %Y %l:%M %p"
+        , "%B %e, %Y"
+        , "%b %d, %Y"
+        ]
