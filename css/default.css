@@ -96,6 +96,15 @@ h2 {
     font-size: 120%;
 }
 
+h1 a, h2 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+h1 a:hover, h2 a:hover {
+    text-decoration: underline;
+}
+
 code {
     font-family: "Consolas", monospace;
     font-size: 90%;  
